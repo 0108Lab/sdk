@@ -40,6 +40,7 @@
 1. Пример тела запроса и ответа:
 
 Запрос:
+```
 <form name="AlifPayForm" action="https://alifpay.tj/web/" method="POST" id="alifPayForm">
     <input type="hidden" name="token" id="token" value="<?php echo  $token;?>">
     <input type="hidden" name="key" id="key" value="<?php echo  $a->key;?>">
@@ -52,8 +53,9 @@
     <input type="hidden" name="phone" id="phone" value="<?php echo $a->phone;?>">
     <input type="submit" value="Пардохт бо корти милли">
 </form>
-
+```
 Ответ:
+```
 {
     "orderId": "12345678",
     "transactionId": "92938922",
@@ -62,6 +64,7 @@
     "amount": 10,
     "phone": "+992931234455"
 }
+```
 orderId: Номер заказа, по которому вы отправили запрос на проведение платежа
 transactionId: уникалный ID транзакции, генерируется Алифом и передается Партнёру. 
 status: статус платежа "ok" или "failed"
@@ -72,7 +75,7 @@ phone: номер телефон плательщика
 2. Порядок создания token-ов и ключей
 
 2. 1. Token для проведения платежа
-       Перед созданием token-а следует преобразовать сумму в нужный формат:
+Перед созданием token-а следует преобразовать сумму в нужный формат:
     $amount = sprintf('%.2f',$amount);
 Только после этого создать token:
     $token = hash_hmac('sha256', $key.$orderid.$amount.$callbackUrl, $secretkey); 
@@ -94,11 +97,13 @@ phone: номер телефон плательщика
 https://alifpay.tj/web/checktxn 
 
 Пример тела запроса:
+```
 {
     "orderId": "12345678",
     "key": "334122",
     "token": "32l1hejldksldj378yd32nidh32uih32d23d2ioj23d"
 }
+```
 orderId: для которого вы хотите проверить статус.
 key: генерируется и передается приватно со стороны Алиф.
 token: аутентификационный token. 
@@ -106,8 +111,8 @@ token: аутентификационный token.
 Создание token-а  для проверки статуса транзакции:
 hash_hmac('sha256', $key.$orderid, $secretkey);
 
-           Пример тела ответа:
-
+Пример тела ответа:
+```
 {
     "orderId": "12345678",
     "transactionId": "92938922",
@@ -116,5 +121,6 @@ hash_hmac('sha256', $key.$orderid, $secretkey);
     "amount": 10,
     "phone": "+992931234455"
 }
+```
 
 Детальный пример запросов можно посмотреть в файле sample.php, который предоставляется вместе с SDK.
