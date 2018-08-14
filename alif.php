@@ -20,7 +20,7 @@ class Alif
     }
 
     function token(){
-      $this->amount = sprintf('%.2f',$this->amount);
+      $this->amount = number_format($this->amount, 2, '.', '');
       if($this->amount !== '' && $this->key !== '' && $this->orderid !== '' && $this->callbackUrl !== ''){
         return hash_hmac('sha256', $this->key.$this->orderid.$this->amount.$this->callbackUrl, $this->secretkey);
       }

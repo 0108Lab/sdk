@@ -76,7 +76,7 @@ phone: номер телефон плательщика
 
 2. 1. Token для проведения платежа
 Перед созданием token-а следует преобразовать сумму в нужный формат:
-    $amount = sprintf('%.2f',$amount);
+    $amount = number_format($amount, 2, '.', '');
 Только после этого создать token:
     $token = hash_hmac('sha256', $key.$orderid.$amount.$callbackUrl, $secretkey); 
 
