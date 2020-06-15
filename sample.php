@@ -2,7 +2,7 @@
  require_once('alif.php');
   $a = new Alif('keycode','passcode');
   $a->amount = 2.99;
-  $a->orderid = '321123'; //from merchant shop
+  $a->orderId = '321123'; //from merchant shop
   $a->callbackUrl = 'http://myshop.tj/thank_you.php';
   $a->returnUrl = 'http://myshop.tj';
   $a->info = 'Xiaomi Mi Mix 2S 6/64 Gb';
@@ -18,7 +18,7 @@
     <!-- callback url where alif sends information about status of transactions -->
     <input type="hidden" name="returnUrl" id="returnUrl" value="<?php echo $a->returnUrl;?>">
     <input type="hidden" name="amount" id="amount" value="<?php echo $a->amount;?>" required>
-    <input type="hidden" name="orderId" id="orderId" value="<?php echo $a->orderid;?>">
+    <input type="hidden" name="orderId" id="orderId" value="<?php echo $a->orderId;?>">
 
     <input type="hidden" name="info" id="info" value="<?php echo $a->info;?>">
     

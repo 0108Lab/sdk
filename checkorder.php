@@ -2,12 +2,12 @@
 
     require_once('alif.php');
     $a = new Alif('keycode','passcode');
-    $a->orderid = '321123'; //orderid
+    $a->orderId = '321123'; //orderid
     $token = $a->checkOrderToken();
 
     // The data to send to the API
 $postData = array(
-    'orderId' => $a->orderid,
+    'orderId' => $a->orderId,
     'key' => $a->key,
     'token' => $token
 );

@@ -5,7 +5,7 @@ class Alif
     public  $key; 
     public  $amount;
     public  $info; 
-    public  $orderid;
+    public  $orderId;
     public  $callbackUrl;
     public  $returnUrl;
     public  $email;
@@ -20,18 +20,18 @@ class Alif
     }
 
     function token(){
-      $this->amount = sprintf('%.2f',$this->amount);
-      if($this->amount !== '' && $this->key !== '' && $this->orderid !== '' && $this->callbackUrl !== ''){
-        return hash_hmac('sha256', $this->key.$this->orderid.$this->amount.$this->callbackUrl, $this->secretkey);
+      $this->amount = number_format($this->amount, 2, '.', '');
+      if($this->amount !== '' && $this->key !== '' && $this->orderId !== '' && $this->callbackUrl !== ''){
+        return hash_hmac('sha256', $this->key.$this->orderId . $this->amount . $this->callbackUrl, $this->secretkey);
       }
     }
 
     function callback(){
-        return hash_hmac('sha256', $this->orderid.$this->status.$this->transactionId, $this->secretkey);
+        return hash_hmac('sha256', $this->orderId . $this->status . $this->transactionId, $this->secretkey);
     }
 
     function checkOrderToken(){
-        return hash_hmac('sha256', $this->key.$this->orderid, $this->secretkey);
+        return hash_hmac('sha256', $this->key.$this->orderId, $this->secretkey);
     }
 
     function tokenInfo($jsn){

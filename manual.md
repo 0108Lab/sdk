@@ -31,7 +31,7 @@
 4. Обратный адрес ($сallbackUrl) – URL, по которому Алиф ответить о статусе платежа.
 5. Возврат на сайт Торговца ($returnUrl) – URL, по которому можно вернуться к Торговцу.
 6. Сумма платежа ($amount) – сумма вводимая плательщиком в интерфейсе продавца. Смотрите правила преобразования данного поля.
-7. ID заказа ($orderID) – Уникальный номер заказа. Генерируется и передается со стороны Партнёра. Может быть использован для проверки статуса платежа.
+7. ID заказа ($orderId) – Уникальный номер заказа. Генерируется и передается со стороны Партнёра. Может быть использован для проверки статуса платежа.
 8. Информационное поле ($info) - инфо платежа. например - "Оплата за телефон".
 9. Номер телефона ($phone) – Номер телефона отправителя платежа.
 10. Адрес электронной почты ($email) - 
@@ -47,7 +47,7 @@
     <input type="hidden" name="callbackUrl" id="callbackUrl" value="<?php echo $a->callbackUrl;?>">
     <input type="hidden" name="returnUrl" id="returnUrl" value="<?php echo $a->returnUrl;?>">
     <input type="hidden" name="amount" id="amount" value="<?php echo $a->amount;?>">
-    <input type="hidden" name="orderId" id="orderId" value="<?php echo $a->orderid;?>">
+    <input type="hidden" name="orderId" id="orderId" value="<?php echo $a->orderId;?>">
     <input type="hidden" name="info" id="info" value="<?php echo $a->info;?>">
     <input type="hidden" name="email" id="email" value="<?php echo $a->email;?>">
     <input type="hidden" name="phone" id="phone" value="<?php echo $a->phone;?>">
@@ -76,9 +76,9 @@ phone: номер телефон плательщика
 
 2. 1. Token для проведения платежа
 Перед созданием token-а следует преобразовать сумму в нужный формат:
-    $amount = sprintf('%.2f',$amount);
+    $amount = number_format($amount, 2, '.', '');
 Только после этого создать token:
-    $token = hash_hmac('sha256', $key.$orderid.$amount.$callbackUrl, $secretkey); 
+    $token = hash_hmac('sha256', $key.$orderId.$amount.$callbackUrl, $secretkey); 
 
 2.2.   Секретный ключ для создания token
 
@@ -87,7 +87,7 @@ phone: номер телефон плательщика
 
 2.3.  Token для использования в ответе и его проверке 
 
-    $token = hash_hmac('sha256', $orderid.$status.$transactionId, $secretkey);
+    $token = hash_hmac('sha256', $orderId.$status.$transactionId, $secretkey);
     if ($token == $resp->token) {
         // do something
     }
@@ -109,7 +109,7 @@ key: генерируется и передается приватно со ст
 token: аутентификационный token. 
 
 Создание token-а  для проверки статуса транзакции:
-hash_hmac('sha256', $key.$orderid, $secretkey);
+hash_hmac('sha256', $key.$orderId, $secretkey);
 
 Пример тела ответа:
 ```
